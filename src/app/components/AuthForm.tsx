@@ -8,10 +8,17 @@ import {
   faUser,
   faEye,
   faEyeSlash,
+  faUserShield,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuthStore } from "../zustand/useAuthStore";
 import { parseJwt } from "../utils/parseJwt";
 import { useRouter } from "next/navigation";
+
+export enum Role {
+  ADMIN = "ADMIN",
+  DONOR = "DONOR",
+  VOLUNTEER = "VOLUNTEER",
+}
 
 export default function AuthForm() {
   const { setToken, setName } = useAuthStore();
@@ -21,11 +28,14 @@ export default function AuthForm() {
     name: "",
     email: "",
     password: "",
+    role: "", 
   });
 
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -38,18 +48,15 @@ export default function AuthForm() {
               name: formData.name,
               email: formData.email,
               password: formData.password,
+              role: formData.role,
             });
 
       localStorage.setItem("token", res.token);
       setToken(res.token);
 
-      
       const payload = parseJwt(res.token);
-      if (payload) {
-        setName(payload.name);
-        // setEmail(payload.email);
-        // setRole(payload.role);
-      }
+      if (payload?.name) setName(payload.name);
+
       router.push("/");
     } catch (err) {
       alert("Authentication failed. Check console for details.");
@@ -100,17 +107,40 @@ export default function AuthForm() {
       {/* Form Fields */}
       <div className="space-y-4">
         {mode === "register" && (
-          <div className="flex items-center border border-gray-300 rounded-lg px-4 py-2 bg-gray-50 hover:bg-white focus-within:bg-white">
-            <FontAwesomeIcon icon={faUser} className="text-gray-400 mr-3" />
-            <input
-              type="text"
-              name="name"
-              placeholder="Username"
-              className="w-full bg-transparent outline-none text-sm"
-              value={formData.name}
-              onChange={handleChange}
-            />
-          </div>
+          <>
+            <div className="flex items-center border border-gray-300 rounded-lg px-4 py-2 bg-gray-50 hover:bg-white focus-within:bg-white">
+              <FontAwesomeIcon icon={faUser} className="text-gray-400 mr-3" />
+              <input
+                type="text"
+                name="name"
+                placeholder="Username"
+                className="w-full bg-transparent outline-none text-sm"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Role Dropdown */}
+            <div className="flex items-center border border-gray-300 rounded-lg px-4 py-2 bg-gray-50 hover:bg-white focus-within:bg-white">
+              <FontAwesomeIcon
+                icon={faUserShield}
+                className="text-gray-400 mr-3"
+              />
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="w-full bg-transparent outline-none text-sm text-gray-700"
+              >
+                <option value="" disabled>
+                  Select Role
+                </option>
+                <option value="ADMIN">Admin</option>
+                <option value="DONOR">Donor</option>
+                <option value="VOLUNTEER">Volunteer</option>
+              </select>
+            </div>
+          </>
         )}
 
         <div className="flex items-center border border-gray-300 rounded-lg px-4 py-2 bg-gray-50 hover:bg-white focus-within:bg-white">

@@ -16,12 +16,15 @@ export async function register({
   name,
   email,
   password,
+  role,
 }: {
   name: string;
   email: string;
   password: string;
+  role: string;
 }) {
-  const res = await api.post("/auth/register", { name, email, password });
+  const res = await api.post("/auth/register", { name, email, password, role });
   localStorage.setItem("token", res.data.token);
   return res.data;
 }
+
