@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "../zustand/useAuthStore";
 import { parseJwt } from "../utils/parseJwt";
 import { useRouter } from "next/navigation";
+import { UserIcon, EnvelopeIcon, IdentificationIcon } from "@heroicons/react/24/outline";
 
 export default function Dashboard() {
   const { token, name, setName, email, setEmail, role, setRole, reset } =
@@ -25,27 +26,37 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center px-4">
-      <div className="w-full max-w-4xl bg-white p-8 rounded-2xl shadow-xl border border-gray-200">
-        <h2 className="text-3xl font-bold text-indigo-700 text-center mb-4">
-          Welcome to Your Dashboard
-        </h2>
-        <p className="text-center text-gray-600 mb-8">
-          Here's your account summary
-        </p>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-indigo-50 flex items-center justify-center px-4">
+      <div className="w-full max-w-5xl bg-white p-10 rounded-3xl shadow-2xl border border-gray-100 transition-all duration-300 ease-in-out">
+        <div className="text-center mb-8">
+          <div className="flex justify-center mb-4">
+            <div className="h-20 w-20 bg-indigo-100 rounded-full flex items-center justify-center shadow-md">
+              <UserIcon className="h-10 w-10 text-indigo-600" />
+            </div>
+          </div>
+          <h2 className="text-3xl font-extrabold text-indigo-700">
+            Welcome to the Dashboard of Community Fridge!
+          </h2>
+          <p className="text-gray-500 mt-2">Your personalized user panel ✨</p>
+        </div>
 
-        <div className="space-y-4 text-center">
-          <div className="text-lg">
-            <span className="font-semibold text-gray-700">Name:</span>{" "}
-            <span className="text-indigo-600">{name || "—"}</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+          <div className="bg-gray-50 p-5 rounded-xl border shadow-sm hover:shadow-md transition">
+            <UserIcon className="h-6 w-6 mx-auto text-indigo-500 mb-2" />
+            <p className="text-sm text-gray-500">Name</p>
+            <p className="text-lg font-semibold text-indigo-700">{name || "—"}</p>
           </div>
-          <div className="text-lg">
-            <span className="font-semibold text-gray-700">Email:</span>{" "}
-            <span className="text-indigo-600">{email || "—"}</span>
+
+          <div className="bg-gray-50 p-5 rounded-xl border shadow-sm hover:shadow-md transition">
+            <EnvelopeIcon className="h-6 w-6 mx-auto text-indigo-500 mb-2" />
+            <p className="text-sm text-gray-500">Email</p>
+            <p className="text-lg font-semibold text-indigo-700">{email || "—"}</p>
           </div>
-          <div className="text-lg">
-            <span className="font-semibold text-gray-700">Role:</span>{" "}
-            <span className="text-indigo-600">{role || "—"}</span>
+
+          <div className="bg-gray-50 p-5 rounded-xl border shadow-sm hover:shadow-md transition">
+            <IdentificationIcon className="h-6 w-6 mx-auto text-indigo-500 mb-2" />
+            <p className="text-sm text-gray-500">Role</p>
+            <p className="text-lg font-semibold text-indigo-700">{role || "—"}</p>
           </div>
         </div>
 
