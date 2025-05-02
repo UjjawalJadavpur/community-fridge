@@ -1,29 +1,37 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Dashboard from "./components/Dashboard";
 import { useAuthStore } from "./zustand/useAuthStore";
+import { parseJwt } from "./utils/parseJwt";
 
 export default function Home() {
-  const { token, setToken } = useAuthStore();
+  const { token, setToken, setName, setEmail, setRole } = useAuthStore();
   const router = useRouter();
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
+
     if (storedToken) {
       setToken(storedToken);
+      const payload = parseJwt(storedToken);
+
+      if (payload?.name) setName(payload.name);
+      if (payload?.email) setEmail(payload.email);
+      if (payload?.role) {
+        setRole(payload.role);
+        const roleRoute = payload.role.toLowerCase();
+        router.push(`/dashboard/${roleRoute}`);
+      } else {
+        router.push("/login");
+      }
     } else {
       router.push("/login");
     }
-    setLoading(false); 
-  }, [setToken, router]);
 
-  if (loading || !token) return null;
+    setLoading(false);
+  }, [setToken, setName, setEmail, setRole, router]);
 
-  return (
-    <div className="min-h-screen bg-gray-50 p-4 flex justify-center items-center">
-      <Dashboard />
-    </div>
-  );
+  if (loading) return null;
+  return null; // Nothing to render — user is being redirected
 }
