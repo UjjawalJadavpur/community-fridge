@@ -21,12 +21,14 @@ export default function Navbar() {
       { label: "Manage Fridges", href: "/dashboard/admin/fridges" },
     ],
     DONOR: [
-      { label: "Donate Food", href: "/dashboard/donor/donate" },
+      { label: "Donate Food", href: "/dashboard/donor/add-food" },
       { label: "My Contributions", href: "/dashboard/donor/history" },
     ],
     VOLUNTEER: [
       { label: "Fridge Status", href: "/dashboard/volunteer/status" },
       { label: "Assigned Tasks", href: "/dashboard/volunteer/tasks" },
+      { label: "Fridge Inventory", href: "/dashboard/volunteer/fridge-inventory" },
+      { label: "Fridge Map", href: "/dashboard/volunteer/fridge-map" },
     ],
   };
 
