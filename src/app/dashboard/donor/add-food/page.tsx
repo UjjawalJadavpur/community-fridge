@@ -9,6 +9,7 @@ export default function AddFoodPage() {
   const [quantity, setQuantity] = useState(1);
   const [expiryDate, setExpiryDate] = useState("");
   const [fridgeId, setFridgeId] = useState(1); // Default to 1
+  const [imageUrl, setImageUrl] = useState(""); // New state for Image URL
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,6 +34,7 @@ export default function AddFoodPage() {
       expiryDate,
       fridgeId,
       donorId,
+      imageUrl: imageUrl || "https://example.com/default-image.jpg", 
     };
 
     try {
@@ -51,6 +53,7 @@ export default function AddFoodPage() {
         setQuantity(1);
         setExpiryDate("");
         setFridgeId(1);
+        setImageUrl(""); 
       } else {
         const error = await res.json();
         setMessage("❌ Error: " + (error.message || "Failed to add food item"));
@@ -119,6 +122,17 @@ export default function AddFoodPage() {
               </option>
             ))}
           </select>
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1">Image URL (Optional)</label>
+          <input
+            type="text"
+            placeholder="Enter image URL"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)} 
+            className="w-full border p-2 rounded"
+          />
         </div>
 
         <button
