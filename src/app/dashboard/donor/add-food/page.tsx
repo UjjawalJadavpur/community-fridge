@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { useAuthStore } from "@/app/zustand/useAuthStore";
 import { parseJwt } from "@/app/utils/parseJwt";
@@ -8,8 +9,8 @@ export default function AddFoodPage() {
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [expiryDate, setExpiryDate] = useState("");
-  const [fridgeId, setFridgeId] = useState(1); // Default to 1
-  const [imageUrl, setImageUrl] = useState(""); // New state for Image URL
+  const [fridgeId, setFridgeId] = useState(1);
+  const [imageUrl, setImageUrl] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,7 +35,7 @@ export default function AddFoodPage() {
       expiryDate,
       fridgeId,
       donorId,
-      imageUrl: imageUrl || "https://example.com/default-image.jpg", 
+      imageUrl: imageUrl || "https://example.com/default-image.jpg",
     };
 
     try {
@@ -53,7 +54,7 @@ export default function AddFoodPage() {
         setQuantity(1);
         setExpiryDate("");
         setFridgeId(1);
-        setImageUrl(""); 
+        setImageUrl("");
       } else {
         const error = await res.json();
         setMessage("❌ Error: " + (error.message || "Failed to add food item"));
@@ -65,21 +66,19 @@ export default function AddFoodPage() {
   };
 
   return (
-    <div className="p-8 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center">Add a Food Item</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-4 bg-white p-6 rounded-xl shadow"
-      >
+    <div className="p-6 md:p-10 max-w-2xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-center">➕ Add a Food Item</h1>
+
+      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-xl p-6 space-y-5">
         <div>
           <label className="block font-medium mb-1">Food Name</label>
           <input
             type="text"
-            placeholder="e.g., Apples, Bread"
+            placeholder="e.g., Bananas"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full border p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
 
@@ -88,11 +87,10 @@ export default function AddFoodPage() {
           <input
             type="number"
             min="1"
-            placeholder="Enter quantity"
             value={quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
             required
-            className="w-full border p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
 
@@ -103,7 +101,7 @@ export default function AddFoodPage() {
             value={expiryDate}
             onChange={(e) => setExpiryDate(e.target.value)}
             required
-            className="w-full border p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
 
@@ -113,9 +111,11 @@ export default function AddFoodPage() {
             value={fridgeId}
             onChange={(e) => setFridgeId(Number(e.target.value))}
             required
-            className="w-full border p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            <option value="" disabled>Select a fridge ID</option>
+            <option value="" disabled>
+              Select a fridge ID
+            </option>
             {[1, 2, 3, 4, 5].map((id) => (
               <option key={id} value={id}>
                 Fridge #{id}
@@ -128,22 +128,22 @@ export default function AddFoodPage() {
           <label className="block font-medium mb-1">Image URL (Optional)</label>
           <input
             type="text"
-            placeholder="Enter image URL"
+            placeholder="https://example.com/image.jpg"
             value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)} 
-            className="w-full border p-2 rounded"
+            onChange={(e) => setImageUrl(e.target.value)}
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
 
         <button
           type="submit"
-          className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition"
+          className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition duration-200"
         >
           Add Food Item
         </button>
 
         {message && (
-          <p className="text-sm text-center mt-2 font-medium">
+          <p className="text-sm text-center font-medium mt-2">
             {message}
           </p>
         )}

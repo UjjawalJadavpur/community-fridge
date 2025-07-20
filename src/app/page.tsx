@@ -33,5 +33,5 @@ export default function Home() {
   }, [setToken, setName, setEmail, setRole, router]);
 
   if (loading) return null;
-  return null; // Nothing to render — user is being redirected
+  return null; 
 }
